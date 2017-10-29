@@ -1,0 +1,882 @@
+{
+swagger: "2.0",
+info: {
+version: "v1",
+title: "Access Management Service"
+},
+basePath: "/",
+paths: {
+/operations: {
+post: {
+tags: [
+"Operations"
+],
+summary: "Creates new operation for a resource type.",
+operationId: "OperationsPost",
+consumes: [
+"application/json-patch+json",
+"application/json",
+"text/json",
+"application/*+json"
+],
+produces: [
+"text/plain",
+"application/json",
+"text/json"
+],
+parameters: [
+{
+name: "request",
+in: "body",
+description: "Desired operation definiton",
+required: false,
+schema: {
+$ref: "#/definitions/OperationRequest"
+}
+},
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+201: {
+description: "Returns the newly-created operation",
+schema: {
+$ref: "#/definitions/OperationResponse"
+}
+},
+400: {
+description: "If the operation is invalid"
+}
+}
+}
+},
+/operations/{id}: {
+delete: {
+tags: [
+"Operations"
+],
+summary: "Deletes operation with specified id.",
+operationId: "OperationsByIdDelete",
+consumes: [ ],
+produces: [ ],
+parameters: [
+{
+name: "id",
+in: "path",
+description: "Resource type id",
+required: true,
+type: "string",
+format: "uuid"
+},
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+204: {
+description: "Successful deletion"
+}
+}
+}
+},
+/resources: {
+post: {
+tags: [
+"Resource"
+],
+summary: "Creates new resource.",
+operationId: "ResourcesPost",
+consumes: [
+"application/json-patch+json",
+"application/json",
+"text/json",
+"application/*+json"
+],
+produces: [
+"text/plain",
+"application/json",
+"text/json"
+],
+parameters: [
+{
+name: "request",
+in: "body",
+description: "Desired resource definiton",
+required: false,
+schema: {
+$ref: "#/definitions/ResourceRequest"
+}
+},
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+201: {
+description: "Returns the newly-created resource",
+schema: {
+$ref: "#/definitions/ResourceResponse"
+}
+},
+400: {
+description: "If the resource configuraton is invalid"
+}
+}
+}
+},
+/resources/{id}: {
+get: {
+tags: [
+"Resource"
+],
+summary: "Get resource definition with specified id.",
+operationId: "ResourcesByIdGet",
+consumes: [ ],
+produces: [
+"text/plain",
+"application/json",
+"text/json"
+],
+parameters: [
+{
+name: "id",
+in: "path",
+description: "Desired resource id",
+required: true,
+type: "string",
+format: "uuid"
+},
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+200: {
+description: "Returns the resource",
+schema: {
+$ref: "#/definitions/ResourceResponse"
+},
+examples: {
+application/json: {
+data: {
+type: "resource",
+attributes: {
+id: "460b19b9-2df8-4755-80a9-fe18d046105c",
+resourceTypeId: "00000000-0000-0000-0000-000000000000"
+},
+relationships: {
+resourceType: {
+data: {
+type: "resourceType",
+id: "resource-type-id"
+}
+}
+}
+}
+}
+}
+},
+400: {
+description: "Id is inavlid"
+},
+409: {
+description: "If resource with the provided id does not exist"
+}
+}
+},
+delete: {
+tags: [
+"Resource"
+],
+summary: "Deletes resource with specified id.",
+operationId: "ResourcesByIdDelete",
+consumes: [ ],
+produces: [ ],
+parameters: [
+{
+name: "id",
+in: "path",
+description: "Resource id",
+required: true,
+type: "string",
+format: "uuid"
+},
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+204: {
+description: "Successful deletion"
+}
+}
+}
+},
+/resourceTypes: {
+get: {
+tags: [
+"ResourceTypes"
+],
+summary: "Gets resource type definition with specified name.",
+operationId: "ResourceTypesGet",
+consumes: [ ],
+produces: [
+"text/plain",
+"application/json",
+"text/json"
+],
+parameters: [
+{
+name: "filter.code",
+in: "query",
+description: "Desired resource type name",
+required: false,
+type: "string"
+},
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+200: {
+description: "Returns the resource Type",
+schema: {
+$ref: "#/definitions/ResourceTypeRequest"
+}
+},
+409: {
+description: "if resource type with the provided name does not exist"
+}
+}
+},
+post: {
+tags: [
+"ResourceTypes"
+],
+summary: "Creates new resource type.",
+operationId: "ResourceTypesPost",
+consumes: [
+"application/json-patch+json",
+"application/json",
+"text/json",
+"application/*+json"
+],
+produces: [
+"text/plain",
+"application/json",
+"text/json"
+],
+parameters: [
+{
+name: "request",
+in: "body",
+description: "Desired resource type definiton",
+required: false,
+schema: {
+$ref: "#/definitions/ResourceTypeRequest"
+}
+},
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+200: {
+description: "Success",
+schema: {
+$ref: "#/definitions/ResourceTypeRequest"
+}
+},
+201: {
+description: "Returns the newly-created resource Type",
+examples: {
+application/json: {
+data: {
+type: "resourceType",
+id: "310b7c1c-bc4e-11e7-abc4-cec278b6b50a",
+attributes: {
+code: "EALedger",
+name: "Resource Type Name"
+}
+}
+}
+}
+},
+400: {
+description: "If the resource Type configuraton is invalid"
+}
+}
+},
+delete: {
+tags: [
+"ResourceTypes"
+],
+summary: "Deletes resource type with specified code.",
+operationId: "ResourceTypesDelete",
+consumes: [ ],
+produces: [ ],
+parameters: [
+{
+name: "filter.code",
+in: "query",
+description: "Resource type code",
+required: false,
+type: "string"
+},
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+204: {
+description: "Successful deletion"
+}
+}
+}
+},
+/resourceTypes/{id}: {
+get: {
+tags: [
+"ResourceTypes"
+],
+summary: "Get resource type definition with specified id.",
+operationId: "ResourceTypesByIdGet",
+consumes: [ ],
+produces: [
+"text/plain",
+"application/json",
+"text/json"
+],
+parameters: [
+{
+name: "id",
+in: "path",
+description: "Desired resource type id",
+required: true,
+type: "string",
+format: "uuid"
+},
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+200: {
+description: "Returns the resource Type",
+schema: {
+$ref: "#/definitions/ResourceTypeRequest"
+},
+examples: {
+application/json: {
+data: {
+type: "resourceType",
+attributes: {
+code: "EALedger",
+name: "Resource Type Name"
+}
+}
+}
+}
+},
+400: {
+description: "Id is invalid"
+},
+409: {
+description: "If resource type with the provided id does not exist"
+}
+}
+},
+delete: {
+tags: [
+"ResourceTypes"
+],
+summary: "Deletes resource type with specified id.",
+operationId: "ResourceTypesByIdDelete",
+consumes: [ ],
+produces: [ ],
+parameters: [
+{
+name: "id",
+in: "path",
+description: "Resource type id",
+required: true,
+type: "string",
+format: "uuid"
+},
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+204: {
+description: "Successful deletion"
+}
+}
+}
+},
+/roles: {
+post: {
+tags: [
+"Roles"
+],
+summary: "Creates new role for a resource type.",
+operationId: "RolesPost",
+consumes: [
+"application/json-patch+json",
+"application/json",
+"text/json",
+"application/*+json"
+],
+produces: [
+"text/plain",
+"application/json",
+"text/json"
+],
+parameters: [
+{
+name: "request",
+in: "body",
+description: "Desired role definiton",
+required: false,
+schema: {
+$ref: "#/definitions/RoleRequest"
+}
+},
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+201: {
+description: "Returns the newly-created role",
+schema: {
+$ref: "#/definitions/JsonApi[RoleDto,RoleRelationships]"
+}
+},
+400: {
+description: "If the role is invalid"
+}
+}
+}
+},
+/roles/{id}: {
+delete: {
+tags: [
+"Roles"
+],
+summary: "Deletes role with specified id.",
+operationId: "RolesByIdDelete",
+consumes: [ ],
+produces: [ ],
+parameters: [
+{
+name: "id",
+in: "path",
+description: "Role id",
+required: true,
+type: "string",
+format: "uuid"
+},
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+204: {
+description: "Successful deletion"
+}
+}
+}
+},
+/status: {
+get: {
+tags: [
+"Status"
+],
+operationId: "StatusGet",
+consumes: [ ],
+produces: [
+"text/plain",
+"application/json",
+"text/json"
+],
+parameters: [
+{
+name: "Authorization",
+in: "header",
+description: "access token",
+required: false,
+type: "string"
+}
+],
+responses: {
+200: {
+description: "Success",
+schema: {
+type: "string"
+}
+}
+}
+}
+}
+},
+definitions: {
+OperationRequest: {
+description: "Operation",
+required: [
+"data"
+],
+type: "object",
+properties: {
+data: {
+$ref: "#/definitions/JsonApiData[OperationDto,OperationRelationships]"
+}
+}
+},
+JsonApiData[OperationDto,OperationRelationships]: {
+required: [
+"type",
+"relationships"
+],
+type: "object",
+properties: {
+type: {
+type: "string"
+},
+id: {
+type: "string"
+},
+attributes: {
+$ref: "#/definitions/OperationDto"
+},
+relationships: {
+$ref: "#/definitions/OperationRelationships"
+}
+}
+},
+OperationDto: {
+description: "Operation",
+required: [
+"code",
+"label"
+],
+type: "object",
+properties: {
+code: {
+description: "Operation code - must be unique for a resource type",
+type: "string"
+},
+label: {
+description: "Lable is used only for UI purposes",
+type: "string"
+},
+description: {
+description: "Descritption is used only for UI purposes",
+type: "string"
+}
+}
+},
+OperationRelationships: {
+required: [
+"resourceType"
+],
+type: "object",
+properties: {
+resourceType: {
+$ref: "#/definitions/JsonApiOneToOneRelationship"
+}
+}
+},
+JsonApiOneToOneRelationship: {
+required: [
+"data"
+],
+type: "object",
+properties: {
+data: {
+$ref: "#/definitions/JsonApiData"
+}
+}
+},
+JsonApiData: {
+required: [
+"type",
+"id"
+],
+type: "object",
+properties: {
+type: {
+type: "string"
+},
+id: {
+type: "string"
+}
+}
+},
+OperationResponse: {
+required: [
+"data"
+],
+type: "object",
+properties: {
+data: {
+$ref: "#/definitions/JsonApiData[OperationDto,OperationRelationships]"
+}
+}
+},
+ResourceRequest: {
+description: "Resource definition",
+required: [
+"data"
+],
+type: "object",
+properties: {
+data: {
+$ref: "#/definitions/JsonApiData[ResourceDto,ResourceRelationships]"
+}
+}
+},
+JsonApiData[ResourceDto,ResourceRelationships]: {
+required: [
+"type",
+"relationships"
+],
+type: "object",
+properties: {
+type: {
+type: "string"
+},
+id: {
+type: "string"
+},
+attributes: {
+$ref: "#/definitions/ResourceDto"
+},
+relationships: {
+$ref: "#/definitions/ResourceRelationships"
+}
+}
+},
+ResourceDto: {
+description: "Resource definition",
+type: "object",
+properties: { }
+},
+ResourceRelationships: {
+required: [
+"resourceType"
+],
+type: "object",
+properties: {
+resourceType: {
+$ref: "#/definitions/JsonApiOneToOneRelationship"
+}
+}
+},
+ResourceResponse: {
+required: [
+"data"
+],
+type: "object",
+properties: {
+data: {
+$ref: "#/definitions/JsonApiData[ResourceDto,ResourceRelationships]"
+}
+}
+},
+ResourceTypeRequest: {
+description: "Resource Type definition",
+required: [
+"data"
+],
+type: "object",
+properties: {
+data: {
+$ref: "#/definitions/JsonApiData[ResourceTypeDto]"
+}
+},
+example: {
+data: {
+type: "resourceType",
+attributes: {
+code: "EALedger",
+name: "Resource Type Name"
+}
+}
+}
+},
+JsonApiData[ResourceTypeDto]: {
+required: [
+"type",
+"attributes"
+],
+type: "object",
+properties: {
+type: {
+type: "string"
+},
+id: {
+type: "string"
+},
+attributes: {
+$ref: "#/definitions/ResourceTypeDto"
+}
+}
+},
+ResourceTypeDto: {
+description: "Resource Type definition",
+required: [
+"code",
+"name"
+],
+type: "object",
+properties: {
+code: {
+description: "resource Type code - case sensitive",
+type: "string"
+},
+name: {
+description: "resource Type name - case sensitive",
+type: "string"
+}
+}
+},
+RoleRequest: {
+required: [
+"data"
+],
+type: "object",
+properties: {
+data: {
+$ref: "#/definitions/JsonApiData[RoleDto,RoleRelationships]"
+}
+}
+},
+JsonApiData[RoleDto,RoleRelationships]: {
+required: [
+"type",
+"relationships"
+],
+type: "object",
+properties: {
+type: {
+type: "string"
+},
+id: {
+type: "string"
+},
+attributes: {
+$ref: "#/definitions/RoleDto"
+},
+relationships: {
+$ref: "#/definitions/RoleRelationships"
+}
+}
+},
+RoleDto: {
+required: [
+"name",
+"description"
+],
+type: "object",
+properties: {
+name: {
+type: "string"
+},
+description: {
+type: "string"
+}
+}
+},
+RoleRelationships: {
+required: [
+"resourceType",
+"operations"
+],
+type: "object",
+properties: {
+resourceType: {
+$ref: "#/definitions/JsonApiOneToOneRelationship"
+},
+operations: {
+$ref: "#/definitions/JsonApiOneToManyRelationship"
+}
+}
+},
+JsonApiOneToManyRelationship: {
+required: [
+"data"
+],
+type: "object",
+properties: {
+data: {
+type: "array",
+items: {
+$ref: "#/definitions/JsonApiData"
+}
+}
+}
+},
+JsonApi[RoleDto,RoleRelationships]: {
+required: [
+"data"
+],
+type: "object",
+properties: {
+data: {
+$ref: "#/definitions/JsonApiData[RoleDto,RoleRelationships]"
+}
+}
+}
+},
+securityDefinitions: { }
+}
